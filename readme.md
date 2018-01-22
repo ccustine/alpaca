@@ -1,3 +1,5 @@
+*WARNING: This project is WIP for collaboration on install steps, nothing to see here unless you have been directed here by me.*
+
 # Configuration and Installation of Red Hat IoT Infrastructure
 This document details the steps necessary to install and run the Red Hat IoT infrastructure. If you are installing on an existing Openshift
 environment, skip the section titled "Minishift" as this is only necessary for a local development environment.
@@ -106,9 +108,7 @@ $ oc new-app -eES_HEAP_SIZE=256m -e "ES_JAVA_OPTS=-Des.cluster.name=kapua-datast
 
 ```
 $ oc new-app -n alpaca -f broker.yml -p "IMAGE_VERSION=5.0.0" -p "NAMESPACE=redhatiot" -p "EC_SECRET_DB=ec-db" -p "DISABLE_SSL=true" -p STORAGE_HOST=172.30.33.69 -p STORAGE_PORT=9200 -p DB_HOST=172.30.172.64 -p DB_PORT=3306
-
 $ oc new-app -n alpaca -f console.yml -p "IMAGE_VERSION=5.0.0" -p "NAMESPACE=redhatiot" -p "EC_SECRET_DB=ec-db" -p STORAGE_HOST=172.30.33.69 -p STORAGE_PORT=9200 -p DB_HOST=172.30.172.64 -p DB_PORT=3306
-
 $ oc new-app -n alpaca -f api.yml -p "IMAGE_VERSION=5.0.0" -p "NAMESPACE=redhatiot" -p "EC_SECRET_DB=ec-db" -p STORAGE_HOST=172.30.33.69 -p STORAGE_PORT=9200 -p DB_HOST=172.30.172.64 -p DB_PORT=3306
 ```
 
