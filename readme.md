@@ -2,7 +2,7 @@
 
 # Configuration and Installation of Red Hat IoT Infrastructure
 This document details the steps necessary to install and run the Red Hat IoT infrastructure. If you are installing on an existing Openshift
-environment, skip the section titled "Minishift" as this is only necessary for a local development environment.
+environment, skip the section titled "Minishift" as this is only necessary for a local development environment. In that case go directly to "OpenShift".
 
 ## Minishift
 
@@ -62,24 +62,25 @@ $ docker pull 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-vpn:5.0.0
 ```
 
 ### Tag the images to match openshift app and project
+The target tags will need to have the docker registry url of the integrated registry of the OpenShift instance. Substitute your registry url where applicable.
 ```
-$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-console:5.0.0-128-rhel $(minishift openshift registry)/alpaca/ec-console:5.0.0
-$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-broker:5.0.0-128-rhel $(minishift openshift registry)/alpaca/ec-broker:5.0.0
-$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-vpn:5.0.0-128-rhel $(minishift openshift registry)/alpaca/ec-vpn:5.0.0
-$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-api:5.0.0-128-rhel $(minishift openshift registry)/alpaca/ec-api:5.0.0
+$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-console:5.0.0-128-rhel <integrated registry url>/alpaca/ec-console:5.0.0
+$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-broker:5.0.0-128-rhel <integrated registry url>/alpaca/ec-broker:5.0.0
+$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-vpn:5.0.0-128-rhel <integrated registry url>/alpaca/ec-vpn:5.0.0
+$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/eurotech/ec-api:5.0.0-128-rhel <integrated registry url>/alpaca/ec-api:5.0.0
 ```
 
 ### Log in to OCP docker registry
 ```
-$ docker login -u developer -p $(oc whoami -t) $(minishift openshift registry)
+$ docker login -u developer -p $(oc whoami -t) <integrated registry url>
 ```
 
 ### Push the images
 ```
-$ docker push $(minishift openshift registry)/alpaca/ec-api
-$ docker push $(minishift openshift registry)/alpaca/ec-console
-$ docker push $(minishift openshift registry)/alpaca/ec-vpn
-$ docker push $(minishift openshift registry)/alpaca/ec-broker
+$ docker push <integrated registry url>/alpaca/ec-api
+$ docker push <integrated registry url>/alpaca/ec-console
+$ docker push <integrated registry url>/alpaca/ec-vpn
+$ docker push <integrated registry url>/alpaca/ec-broker
 ```
 
 ### Start MariaDB
