@@ -112,7 +112,52 @@ $ oc new-app -n alpaca -f console.yml -p "IMAGE_VERSION=5.0.0" -p "NAMESPACE=red
 $ oc new-app -n alpaca -f api.yml -p "IMAGE_VERSION=5.0.0" -p "NAMESPACE=redhatiot" -p "EC_SECRET_DB=ec-db" -p STORAGE_HOST=172.30.33.69 -p STORAGE_PORT=9200 -p DB_HOST=172.30.172.64 -p DB_PORT=3306
 ```
 
+### Verify Deployment
+The application can be verified by visiting the URLs output by the command `oc status`. When you run `oc status` you will see something similar to this:
+```
+http://ec-api-redhatiot.192.168.64.72.nip.io to pod port ec-api (svc/ec-api)
+  dc/ec-api deploys istag/ec-api:5.0.0
+    deployment #1 deployed 26 hours ago - 0/1 pods
 
+svc/ec-broker-mqtt (all nodes):31883 -> 1883
+  dc/ec-broker deploys istag/ec-broker:5.0.0
+    deployment #1 deployed 26 hours ago - 0/1 pods
+
+svc/ec-broker-mqtts (all nodes):31993 -> 8883
+  dc/ec-broker deploys istag/ec-broker:5.0.0
+    deployment #1 deployed 26 hours ago - 0/1 pods
+
+svc/ec-broker-ws - 172.30.160.64:61614
+  dc/ec-broker deploys istag/ec-broker:5.0.0
+    deployment #1 deployed 26 hours ago - 0/1 pods
+
+http://ec-console-redhatiot.192.168.64.72.nip.io to pod port ec-console (svc/ec-console)
+  dc/ec-console deploys istag/ec-console:5.0.0
+    deployment #1 deployed 26 hours ago - 0/1 pods
+
+svc/elasticsearch - 172.30.33.69 ports 9200, 9300
+  dc/elasticsearch deploys istag/elasticsearch:2.4
+    deployment #1 deployed 28 hours ago - 1 pod
+
+svc/mariadb-101-rhel7 - 172.30.172.64:3306
+  dc/mariadb-101-rhel7 deploys istag/mariadb-101-rhel7:latest
+    deployment #2 deployed 26 hours ago - 1 pod
+    deployment #1 deployed 28 hours ago
+```
+If the output does not contain any URLs for ec-api and ec-console, you will need to run the following commands to start the routes:
+```
+$ oc expose svc/ec-api
+$ oc expose svc/ec-console
+```
+
+Once you can see the URLs for ec-api and ec-console, you can click on the URLs for svc/ec-api and svc/ec-console. The ec-console should show a web page with a login for Everyware Cloud. The ec-api link should show a small snippet saying:
+
+```
+Jersey RESTful Web Application!
+Visit Project Jersey website for more information on Jersey!
+```
+
+If those URLs are active, then the application is running.
 
 
 # Everything below here is obsolete or unused, saving for context
