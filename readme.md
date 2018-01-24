@@ -116,8 +116,34 @@ Visit Project Jersey website for more information on Jersey!
 If those URLs are active, then the applications are running. There can be a substantial delay 
 while the applications are starting, so if you get a 404 or a page saying the application is not ready yet, then wait a few minutes and try again.
 
-If you are installing on an existing Openshift
-environment, skip the section titled "Minishift" as this is only necessary for a local development environment. In that case go directly to "OpenShift".
+#### Adding organization and users
+At this point you can log in to the EC console as the default admin user. Now you will need to add a child account and a user.
+
+First, click the left side navbar item called "Child Accounts". For the account name, use something short like "alpaca". Organization and email can be any valid name and email address, email is only used for account lockout. Once the required fields are filled, click submit. You should see the child account listed in the top section of the screen.
+
+Click on "alpaca" in the child accounts list. In the settings tab in the bottom of the screen, click the "AccountService" list item. Change "InifniteChildAccounts" to true. Click "Save" in the toolbar above the settings list.
+
+Now open the "Users" tab and click "Add" in the toolbar. Add a userid and password for the gateway to use for broker connections.
+
+<User addition is not working due to "User creation failed: An illegal value was provided for the argument scopeId: max users reached."> Will try to solve this on Wed. 
+
+### Installing ESF
+You will need to pull, tag and push the ESF image into the local OpenShift integrated registry using the following commands:
+```
+$ docker login # To be provided by aws ecr output
+$ docker pull 327816968817.dkr.ecr.us-east-1.amazonaws.com/pub/redhat/esf:5.1.1-fedora-x86_64
+$ docker tag 327816968817.dkr.ecr.us-east-1.amazonaws.com/pub/redhat/esf:5.1.1-fedora-x86_64 <integrated registry url>/alpaca/esf:5.1.1
+$ docker push <integrated registry url>/alpaca/esf:5.1.1
+
+```
+
+Next, start a new app using this image and export the Web UI service:
+```
+$ oc new-app esf:5.1.1 -n alpaca
+$ oc expose svc/esf
+```
+
+At this point you can run `oc status` and check for the esf-alpaca http URL to paste into a browser to verify the application is running. Default credentials are `admin/admin`.
 
 ## Minishift
 
@@ -126,7 +152,7 @@ The following steps are necessary to retrieve the docker images. If you already 
 1. `aws configure`  
 Then add the Access Key ID, Secret Key, and us-east-1 as default region
 2. `aws ecr get-login`  
-Then cut off the "-e none" from the end of the command and copy the resulting ocmmand to clipboard
+Then cut off the "-e none" from the end of the command and copy the resulting oc command to clipboard
 3. Paste the resulting command and run it
 4. `aws ecr list-images --repository-name eurotech/ec-api` to verify docker is connected
 
