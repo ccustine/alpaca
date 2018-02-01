@@ -55,9 +55,9 @@ oc create secret generic ec-db --from-literal=name=ecdb --from-literal=username=
 $ oc create secret generic ec-crt --from-file=crt=openshift/certs/cert.pem --from-file=key=openshift/certs/key.pem --from-file=ca=openshift/certs/ca.pem -n alpaca
 ```
 
-### Start Elasticsearch 2.4
+### Start Elasticsearch 5.4
 ```
-$ oc new-app -eES_HEAP_SIZE=256m -e "ES_JAVA_OPTS=-Des.cluster.name=kapua-datastore -Des.http.cors.enabled=true -Des.http.cors.allow-origin=*" elasticsearch:2.4 -n alpaca
+$ oc new-app -e "ES_JAVA_OPTS=-Des.cluster.name=kapua-datastore -Des.http.cors.enabled=true -Des.http.cors.allow-origin=* -Xms256m -Xmx256m" elasticsearch:5.4 -n alpaca
 ```
 
 
