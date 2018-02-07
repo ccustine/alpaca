@@ -24,4 +24,4 @@
 4. Select "Publisher" from Wires Components menu, give it a unique name such as "cloudPublisher", then click "Ok". Keep default values.
 5. Now connect the components from left to right by clicking the purple box on the timer, and dragging to the MTConnect asset. Repeat by connecting the MTConnect asset to the publisher.
 6. Click "Apply" to save the Wires route and start the polling timer in the route.
-7. You can use a command such as ```oc rsh dc/esf tail -f /var/log/kura.log``` to watch the log file for the gateway and verify that the timer is firing and the messages are being pushed to the Cloud Service.
+7. You can use a command such as ```oc rsh dc/esf tail -f /var/log/kura.log``` to watch the log file for the gateway and verify that the timer is firing and the messages are being pushed to the Cloud Service. Log messages will appear similar to this: ```2018-02-07 08:50:52,898 [DataServiceImpl:Submit] INFO  o.e.k.c.d.t.m.MqttDataTransport - Publishing message on topic: Red-Hat/02:42:AC:11:00:04/W1/A1/MTConnectAsset1 with QoS: 0```
